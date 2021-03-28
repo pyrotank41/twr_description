@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="wheel" params="lr tY offsetX">
+        <link name="link_${lr}_wheel">
+            <collision>
+                <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
+                <geometry>
+                <cylinder length="${wheelWidth}" radius="${wheelRadius}"/>
+                </geometry>
+            </collision>
+            
+            <visual>
+                <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
+                <geometry>
+                <cylinder length="${wheelWidth}" radius="${wheelRadius}"/>
+                </geometry>
+                <material name="red"/>
+            </visual>
+
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
+                <mass value="${wheelMass}"/>
+                <xacro:cylinder_inertia m="${wheelMass}" r="${wheelRadius}" h="${wheelWidth}"/>
+            </inertial>
+        </link>
+
+        <gazebo reference="link_${lr}_wheel">
+            <mu1 value="1"/>
+            <mu2 value="1"/>
+            <kp  value="1000000000.0" />
+            <kd  value="1.0" />
+            <fdir1 value="1 0 0"/>
+        </gazebo>
+                        
+        <joint name="joint_${lr}_wheel" type="continuous">
+            <parent link="link_chassis"/>
+            <child link="link_${lr}_wheel"/>
+            
+            <origin xyz="${offsetX} ${tY*chassisWidth/2} ${wheelZOffest}" rpy="0 0 0" />
+            <axis xyz="0 1 0" rpy="0 0 0" />
+            <limit effort="1000000" velocity="100000"/>
+            <joint_properties damping="5.0" friction="5.0" />   
+        </joint>
+
+    </xacro:macro>
+    
+    <xacro:macro name="chaster" params="name tX">
+        <joint name="joint_chaster_${name}" type="fixed">
+            <child link="link_chaster_${name}" />
+            <parent link="link_chassis"/>
+            <origin rpy=" 0 0 0" xyz="${tX*(chassisLength/2-casterRadius)} 0 ${chasterZOffest}"/>
+            
+        </joint>
+
+        <link name="link_chaster_${name}">
+            <collision name="caster_${name}_collision">
+            <origin rpy=" 0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="${casterRadius}"/>
+            </geometry>
+            <surface>
+                <friction>
+                <ode>
+                    <mu>0</mu>
+                    <mu2>0</mu2>
+                    <slip1>1.0</slip1>
+                    <slip2>1.0</slip2>
+                </ode>
+                </friction>
+            </surface>
+            </collision>
+            
+            <visual name="caster_${name}_visual">
+            <origin rpy=" 0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <sphere radius="${casterRadius}"/>
+            </geometry>
+            </visual>
+
+            <inertial>
+            <origin rpy=" 0 0 0" xyz="0 0 0"/>
+            <mass value="${casterMass}"/>
+            <xacro:sphere_inertia m="${casterMass}" r="${casterRadius}"/>
+            </inertial>
+        </link>    
+    </xacro:macro>
+
+    <xacro:macro name="aruco" params="idA idB tX dimA dimB">
+        
+        <!-- larger aruco -->
+        <joint name="joint_aruco_${idB}" type="fixed">
+            <parent link="link_chassis"/>
+            <child link="link_aruco_${idB}"/> 
+            <origin rpy="0 0 0" xyz="${tX*(chassisLength/2 - 0.6)} 0 ${chassisHeight/2}"/>
+        </joint>
+
+        <link name="link_aruco_${idB}"> 
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                <box size="${dimB} ${dimB} 0.005"/>
+                </geometry>
+            </visual>
+        </link>
+        <gazebo reference="link_aruco_${idB}">
+            <material>Gazebo/Aruco${idB}</material>
+        </gazebo>
+       
+       <!-- smaller aruco  -->
+        <joint name="joint_aruco_${idA}" type="fixed">
+            <parent link="link_chassis"/>
+            <child link="link_aruco_${idA}"/> 
+            <origin rpy="0 0 0" xyz="${tX*(chassisLength/2 - 0.6 - dimB)} 0 ${chassisHeight/2}"/>
+        </joint>
+
+        <link name="link_aruco_${idA}"> 
+            <visual>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                <geometry>
+                <box size="${dimA} ${dimA} 0.005"/>
+                </geometry>
+            </visual>
+        </link>
+        <gazebo reference="link_aruco_${idA}">
+            <material>Gazebo/Aruco${idA}</material>
+        </gazebo>
+
+    </xacro:macro>
+</robot>

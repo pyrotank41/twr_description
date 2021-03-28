@@ -1,0 +1,79 @@
+<?xml version="1.0" ?>
+
+<robot name="twr" xmlns:xacro="https://www.ros.org/wiki/xacro" >
+
+  <xacro:property name="PI" value="3.1415926535897931"/>
+  <!-- length in meters and weight in kgs -->
+  <xacro:property name="chassisHeight" value="1.5"/>
+  <xacro:property name="chassisLength" value="4"/>
+  <xacro:property name="chassisWidth" value="2.225"/>
+  <xacro:property name="chassisMass" value="500"/>
+
+  <xacro:property name="casterRadius" value="0.3"/>
+  <xacro:property name="casterMass" value="10"/>
+
+  <xacro:property name="wheelWidth" value="0.2"/>
+  <xacro:property name="wheelRadius" value="0.35"/>
+  <xacro:property name="wheelPos" value="1"/>
+  <xacro:property name="wheelMass" value="20"/>
+  
+  <xacro:property name="groundClearance" value="0.2"/>
+  <xacro:property name="chasterZOffest" value="${-chassisHeight/2 + (-groundClearance + casterRadius) + 0.0012}"/>
+  <xacro:property name="wheelZOffest" value="${-chassisHeight/2 + (-groundClearance + wheelRadius) }"/>
+
+
+  <xacro:property name="cameraSize" value="0.05"/>
+  <xacro:property name="cameraMass" value="0.1"/>
+    
+  <xacro:include filename="$(find twr_description)/urdf/twr.gazebo" />
+  <xacro:include filename="$(find twr_description)/urdf/materials.xacro" />
+  <xacro:include filename="$(find twr_description)/urdf/macros.xacro" />
+  <xacro:include filename="$(find twr_description)/urdf/inertia_macros.xacro" />
+  
+
+  <!-- just a dummy link as KDL does not support a root link with an inertia. 
+       As a workaround, we have to add an extra dummy link to our URDF -->
+  <link name="link_dummy"/>
+  <joint name="joint_chassis" type="fixed">
+    <child link="link_chassis" />
+    <parent link="link_dummy"/>
+    <origin rpy="0 0 0" xyz="0 0 ${groundClearance+chassisHeight/2}"/>
+  </joint>
+
+  <link name="link_chassis">
+    <!-- pose and inertial -->
+
+    <collision name="collision_chassis">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${chassisLength} ${chassisWidth} ${chassisHeight}"/>
+      </geometry>
+    </collision>
+    
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${chassisLength} ${chassisWidth} ${chassisHeight}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    
+    <inertial>
+      <mass value="${chassisMass}"/>
+      <origin rpy="0 0 0" xyz="0 0 ${-chassisHeight/4}"/>
+      <xacro:box_inertia m="${chassisMass}" x="${chassisLength}" y="${chassisWidth}" z="${chassisHeight}"/>
+    </inertial>
+  </link>
+
+  <xacro:aruco idA="129" idB="72" tX="1" dimA="0.2" dimB="0.8"/>
+  <xacro:aruco idA="35" idB="48" tX="-1" dimA="0.2" dimB="0.8"/>
+
+  <xacro:chaster name="front" tX="1"/>
+  <xacro:chaster name="back" tX="-1"/>
+
+  <xacro:wheel lr="left" tY="1" offsetX="0"/>
+  <xacro:wheel lr="right" tY="-1" offsetX = "0"/>
+  
+  
+</robot>
+
