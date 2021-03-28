@@ -64,6 +64,28 @@
       <xacro:box_inertia m="${chassisMass}" x="${chassisLength}" y="${chassisWidth}" z="${chassisHeight}"/>
     </inertial>
   </link>
+  <link name="link_lazer_sensor">
+    <collision name="collision_chassis">
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${chassisLength} ${chassisWidth} ${chassisHeight}"/>
+      </geometry>
+    </collision>
+    
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <box size="${chassisLength} ${chassisWidth} ${chassisHeight}"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+    
+    <inertial>
+      <mass value="${chassisMass}"/>
+      <origin rpy="0 0 0" xyz="0 0 ${-chassisHeight/4}"/>
+      <xacro:box_inertia m="${chassisMass}" x="${chassisLength}" y="${chassisWidth}" z="${chassisHeight}"/>
+    </inertial>
+  </link>
 
   <xacro:aruco idA="129" idB="72" tX="1" dimA="0.2" dimB="0.8"/>
   <xacro:aruco idA="35" idB="48" tX="-1" dimA="0.2" dimB="0.8"/>
