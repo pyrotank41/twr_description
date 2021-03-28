@@ -22,7 +22,7 @@
 
     <arg name="x" default="-38"/>
     <arg name="y" default="43"/>
-    <arg name="z" default="1"/>
+    <arg name="z" default="0.5"/>
 
     <node name="twr_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
           args="-urdf -param robot_description -model twr -x $(arg x) -y $(arg y) -z $(arg z)" />
