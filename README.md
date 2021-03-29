@@ -2,7 +2,7 @@
 A ROS package that contains description of 2 wheeled robot platform with differential drive controller.
 
 This robot is written in URDF:xacro and has arucomarkers at the top of the platform. Note: this repository doesnt have the aruco materials.
-To make aruco material on your system, clone the following folk: https://github.com/pyrotank41/ardupilot_gazebo.git
+To make aruco material and citysim.world works on your system, clone the following folk: https://github.com/pyrotank41/ardupilot_gazebo.git
 
 To use this package, make sure your workspace is setup like so
 ~~~
@@ -27,14 +27,20 @@ source devel/setup.bash
 roslaunch twr_description empty_world.launch
 ~~~
 
+To launch the model in **city sim** world.  
+~~~
+roslaunch twr_description citysim.launch
+~~~
+![Screenshot](./images/robot.png)
 
+to launch the robot with iris arducopter
+~~~
+roslaunch twr_description citysim_iris.launch
+~~~
+![Screenshot](./images/robot2.png)
 
-
-
-If the material is in the gazebo_model_path, it will reflect in this model.
-Currently rviz.launch and spawn.launch files will work, citysim.launch requires citysim.world file that is not a part of this repo either.
 
 For a simple tutorial on the roots of this package check the following link out
 https://karansinghkochar.com/Simple-sim-robot-for-ROS-Gazebo-8f6f01ef536c437eaac98a60111c4203
 
-![Screenshot](./images/robot.png)
+
