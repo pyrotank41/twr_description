@@ -20,13 +20,10 @@
     <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
       <alwaysOn>true</alwaysOn>
       <updateRate>20</updateRate>
-      <!-- <leftJoint>joint_left_back_wheel</leftJoint> -->
-      <leftJoint>joint_left_wheel</leftJoint>
       
-      <!-- <rightJoint>joint_right_back_wheel</rightJoint> -->
+      <leftJoint>joint_left_wheel</leftJoint>
       <rightJoint>joint_right_wheel</rightJoint>
       
-
       <wheelSeparation>${chassisWidth}</wheelSeparation>
       <wheelDiameter>${wheelRadius*2}</wheelDiameter>
       <wheelTorque> 400 </wheelTorque>
