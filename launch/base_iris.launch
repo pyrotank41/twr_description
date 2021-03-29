@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <launch>
+    <arg name="x_twr" default="0"/>
+    <arg name="y_twr" default="0"/>
+    <arg name="z_twr" default="0.2"/>
+    
     <arg name="world_" default=""/>
+
     <include file="$(find twr_description)/launch/base_empty_world.launch">
-        <arg name="x_twr" value="-38"/>
-        <arg name="y_twr" value="43"/>
+        <arg name="x_twr" value="$(arg x_twr)"/>
+        <arg name="y_twr" value="$(arg y_twr)"/>
+        <arg name="z_twr" value="$(arg z_twr)"/>
         <arg name="world_" value="$(arg world_)"/> 
     </include>
 
 
-    <arg name="x_iris" default="-38.6" />
-    <arg name="y_iris" default="43" />
+    <arg name="x_iris" default="-0.6" />
+    <arg name="y_iris" default="0" />
     <arg name="z_iris" default="2.3" />
     
     <include file="$(find twr_description)/launch/spawn_sdf.launch">
-        <arg name="robot_name" value="arducopter" />
+        <arg name="name" value="arducopter" />
         <arg name="x" value="$(arg x_iris)" />
         <arg name="y" value="$(arg y_iris)" />
         <arg name="z" value="$(arg z_iris)" />
         <arg name="roll" value="0"/>
         <arg name="pitch" value="0"/>
         <arg name="yaw" value="0.0" />
-        <arg name="sdf_robot_file" value="$(env HOME)/drone/ardupilot_gazebo/models/iris_with_ardupilot/model.sdf" />
+        <arg name="sdf_file" value="$(env HOME)/drone/ardupilot_gazebo/models/iris_with_ardupilot/model.sdf" />
     </include>
 
   

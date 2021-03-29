@@ -2,6 +2,11 @@
 <launch>
 
     <include file="$(find twr_description)/launch/base_iris.launch">
+        <arg name="x_twr" value="-38"/>
+        <arg name="y_twr" value="43"/>
+        <arg name="x_iris" value="-38.6"/>
+        <arg name="y_iris" value="43"/>
+
         <arg name="world_" value="citysim.world"/>
     </include>
 
