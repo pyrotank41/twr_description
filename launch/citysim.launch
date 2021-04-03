@@ -2,8 +2,8 @@
 <launch>
 
     <include file="$(find twr_description)/launch/base_empty_world.launch">
-        <arg name="x" value="-38"/>
-        <arg name="y" value="43"/> 
+        <arg name="x_twr" value="-38"/>
+        <arg name="y_twr" value="43"/> 
         <arg name="world_" value="citysim.world"/>
     </include>
 
